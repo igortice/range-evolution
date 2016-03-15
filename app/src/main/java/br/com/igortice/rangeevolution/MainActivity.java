@@ -1,5 +1,6 @@
 package br.com.igortice.rangeevolution;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -36,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(getApplicationContext(), "teste", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, ConfigActivity.class);
+            startActivity(intent);
+
             return true;
         }
 
