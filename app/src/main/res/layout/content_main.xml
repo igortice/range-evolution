@@ -24,7 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:background="#C2185B">
+            android:background="@color/colorPrimary"
+            android:layout_marginRight="0.5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,15 +34,16 @@
                 android:text="Before"
                 android:id="@+id/textView"
                 android:layout_gravity="center"
-                android:textColor="#CDDC39"
-                android:textSize="40dp"/>
+                android:textSize="40dp"
+                android:textColor="#FFFFFF" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:background="#CDDC39">
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="0.5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -50,8 +52,8 @@
                 android:text="After"
                 android:id="@+id/textView2"
                 android:layout_gravity="center"
-                android:textColor="#C2185B"
-                android:textSize="40dp"/>
+                android:textSize="40dp"
+                android:textColor="#FFFFFF" />
         </FrameLayout>
     </LinearLayout>
 
@@ -80,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:text="Capturar"
-                    android:id="@+id/btnCapturarImagem"/>
+                    android:id="@+id/btnCapturarImagem" />
 
             </LinearLayout>
 

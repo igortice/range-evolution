@@ -2,4 +2,5 @@
     <string name="app_name">Range Evolution</string>
     <string name="action_settings">Desenvolvedores</string>
     <string name="title_activity_config">Desenvolvedores</string>
+    <string name="title_activity_photo_result">PhotoResultActivity</string>
 </resources>
