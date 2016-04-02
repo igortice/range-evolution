@@ -30,6 +30,7 @@
         <activity
             android:name=".PhotoResultActivity"
             android:label="@string/title_activity_photo_result"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
