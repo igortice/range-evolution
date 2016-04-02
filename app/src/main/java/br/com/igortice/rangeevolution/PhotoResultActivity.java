@@ -2,6 +2,7 @@ package br.com.igortice.rangeevolution;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -31,6 +32,8 @@ public class PhotoResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
         ImageView imageView = (ImageView) findViewById(R.id.photoResult);
+        if (bitmap == null)
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.android);
         imageView.setImageBitmap(bitmap);
     }
 
