@@ -20,4 +20,44 @@
         android:layout_gravity="center_horizontal"
         android:scaleType="fitXY"
         android:adjustViewBounds="true" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"></FrameLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtAddCat"
+            android:hint="Nova Categoria"
+            android:layout_weight="2"
+            android:singleLine="true"
+            android:imeOptions="actionDone" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ADD"
+            android:id="@+id/btnAddCat"
+            android:singleLine="false" />
+
+    </LinearLayout>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salvar"
+        android:id="@+id/button" />
+
 </LinearLayout>
