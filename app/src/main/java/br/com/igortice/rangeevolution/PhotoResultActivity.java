@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +28,8 @@ import com.sromku.simple.storage.Storage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class PhotoResultActivity extends AppCompatActivity {
@@ -36,6 +39,9 @@ public class PhotoResultActivity extends AppCompatActivity {
     private Spinner spinner;
     private ArrayList<String> itensList;
     private ArrayAdapter<String> adapterList;
+    private Button btnSalvarFoto;
+    private String folderSelecionada;
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +58,16 @@ public class PhotoResultActivity extends AppCompatActivity {
 
         configSpinner();
 
-        Button btnSalvarFoto = (Button) findViewById(R.id.btnSalvarFoto);
-//        btnSalvarFoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        configBtnSalvar();
+    }
+
+    private void configBtnSalvar() {
+        btnSalvarFoto = (Button) findViewById(R.id.btnSalvarFoto);
+        btnSalvarFoto.setEnabled(false);
+        btnSalvarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                storage.createFile(folderSelecionada, "texte.jpg", bitmap);
 //                Storage storage = SimpleStorage.getExternalStorage();
 //                storage.deleteDirectory("RangeEvolution");
 //                storage.createDirectory("RangeEvolution");
@@ -63,8 +75,8 @@ public class PhotoResultActivity extends AppCompatActivity {
 //                storage.createFile("RangeEvolution", "saude", "");
 //                storage.createDirectory("RangeEvolution/_casa", true);
 //                storage.createFile("RangeEvolution", "casa", "");
-//            }
-//        });
+            }
+        });
     }
 
     private void configSpinner() {
@@ -74,8 +86,27 @@ public class PhotoResultActivity extends AppCompatActivity {
         for (File f : files) {
             itensList.add(f.getName().toString());
         }
+        Collections.sort(itensList);
         adapterList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, itensList);
         spinner.setAdapter(adapterList);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0){
+                    btnSalvarFoto.setEnabled(true);
+                    folderSelecionada = getFolderPath(parent.getItemAtPosition(position).toString());
+                    Log.i("LOGX", folderSelecionada);
+                }
+                else
+                    btnSalvarFoto.setEnabled(false);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                btnSalvarFoto.setEnabled(false);
+            }
+        });
     }
 
     private void configBtnAddCat() {
@@ -89,12 +120,15 @@ public class PhotoResultActivity extends AppCompatActivity {
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 EditText editText = (EditText) findViewById(R.id.txtAddCat);
-                String val = editText.getText().toString();
+                String nome_folder = editText.getText().toString().toLowerCase();
+                storage.createFile(FOLDER_RAIZ, nome_folder, "");
+                storage.createDirectory(getFolderPath(nome_folder));
                 editText.setText("");
-                if(!itensList.contains(val))
-                    itensList.add(val);
+                if(!itensList.contains(nome_folder))
+                    itensList.add(nome_folder);
+                Collections.sort(itensList);
                 adapterList.notifyDataSetChanged();
-                spinner.setSelection(itensList.indexOf(val));
+                spinner.setSelection(itensList.indexOf(nome_folder));
             }
         });
     }
@@ -108,7 +142,7 @@ public class PhotoResultActivity extends AppCompatActivity {
 
     private void configGetImage() {
         Intent intent = getIntent();
-        Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
+        bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
         ImageView imageView = (ImageView) findViewById(R.id.photoResult);
         if (bitmap == null)
             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.android);
@@ -128,4 +162,7 @@ public class PhotoResultActivity extends AppCompatActivity {
         });
     }
 
+    private String getFolderPath(String folder) {
+        return FOLDER_RAIZ + "/_" + folder;
+    }
 }
