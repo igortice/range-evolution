@@ -24,6 +24,7 @@ import android.widget.Spinner;
 
 import com.sromku.simple.storage.SimpleStorage;
 import com.sromku.simple.storage.Storage;
+import com.sromku.simple.storage.helpers.OrderType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class PhotoResultActivity extends AppCompatActivity {
     private Button btnSalvarFoto;
     private String folderSelecionada;
     Bitmap bitmap;
+    byte[] byteArrayImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class PhotoResultActivity extends AppCompatActivity {
         btnSalvarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storage.createFile(folderSelecionada, "texte.jpg", bitmap);
+                storage.createFile(folderSelecionada, "texte.jpg", byteArrayImg);
 //                Storage storage = SimpleStorage.getExternalStorage();
 //                storage.deleteDirectory("RangeEvolution");
 //                storage.createDirectory("RangeEvolution");
@@ -80,7 +82,7 @@ public class PhotoResultActivity extends AppCompatActivity {
     }
 
     private void configSpinner() {
-        List<File> files = storage.getNestedFiles(FOLDER_RAIZ);
+        List<File> files = storage.getFiles(FOLDER_RAIZ, OrderType.DATE);
         spinner = (Spinner)findViewById(R.id.spinner);
         itensList = new ArrayList<>(Arrays.asList("Escolha a categoria"));
         for (File f : files) {
@@ -121,7 +123,6 @@ public class PhotoResultActivity extends AppCompatActivity {
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 EditText editText = (EditText) findViewById(R.id.txtAddCat);
                 String nome_folder = editText.getText().toString().toLowerCase();
-                storage.createFile(FOLDER_RAIZ, nome_folder, "");
                 storage.createDirectory(getFolderPath(nome_folder));
                 editText.setText("");
                 if(!itensList.contains(nome_folder))
@@ -141,12 +142,11 @@ public class PhotoResultActivity extends AppCompatActivity {
     }
 
     private void configGetImage() {
-        Intent intent = getIntent();
-        bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
+        Bundle extras = getIntent().getExtras();
+        byteArrayImg = extras.getByteArray("BitmapImage");
+        Bitmap bmp = BitmapFactory.decodeByteArray(byteArrayImg, 0, byteArrayImg.length);
         ImageView imageView = (ImageView) findViewById(R.id.photoResult);
-        if (bitmap == null)
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.android);
-        imageView.setImageBitmap(bitmap);
+        imageView.setImageBitmap(bmp);
     }
 
     private void configToolBar() {
@@ -163,6 +163,6 @@ public class PhotoResultActivity extends AppCompatActivity {
     }
 
     private String getFolderPath(String folder) {
-        return FOLDER_RAIZ + "/_" + folder;
+        return FOLDER_RAIZ + "/" + folder;
     }
 }
