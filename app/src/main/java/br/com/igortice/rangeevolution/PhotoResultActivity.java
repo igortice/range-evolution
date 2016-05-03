@@ -27,10 +27,12 @@ import com.sromku.simple.storage.Storage;
 import com.sromku.simple.storage.helpers.OrderType;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class PhotoResultActivity extends AppCompatActivity {
@@ -69,7 +71,8 @@ public class PhotoResultActivity extends AppCompatActivity {
         btnSalvarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storage.createFile(folderSelecionada, "texte.jpg", byteArrayImg);
+                String nameFile = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                storage.createFile(folderSelecionada, nameFile + ".jpg", byteArrayImg);
 //                Storage storage = SimpleStorage.getExternalStorage();
 //                storage.deleteDirectory("RangeEvolution");
 //                storage.createDirectory("RangeEvolution");

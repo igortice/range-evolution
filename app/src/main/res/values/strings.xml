@@ -2,7 +2,7 @@
     <string name="app_name">Range Evolution</string>
     <string name="action_settings">Desenvolvedores</string>
     <string name="title_activity_config">Desenvolvedores</string>
-    <string name="title_activity_photo_result">PhotoResultActivity</string>
+    <string name="title_activity_photo_result">Imagem Capturada</string>
 
     <string name="name_dir_photos">RangeEvolution</string>
 </resources>
