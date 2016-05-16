@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -34,6 +35,30 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         configCapturarImagem();
+
+        configCompararImagens();
+
+        configSlideImagens();
+    }
+
+    private void configSlideImagens() {
+        Button slideImagensBtn = (Button) findViewById(R.id.btnSlideImagens);
+        slideImagensBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Slide Imagens", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void configCompararImagens() {
+        Button compararImagensBtn = (Button) findViewById(R.id.btnCompararImagens);
+        compararImagensBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Comparar Imagens", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void configCapturarImagem() {
