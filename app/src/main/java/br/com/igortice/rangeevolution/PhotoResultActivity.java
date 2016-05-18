@@ -1,14 +1,11 @@
 package br.com.igortice.rangeevolution;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.sromku.simple.storage.SimpleStorage;
 import com.sromku.simple.storage.Storage;
@@ -30,7 +28,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -44,8 +41,7 @@ public class PhotoResultActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapterList;
     private Button btnSalvarFoto;
     private String folderSelecionada;
-    Bitmap bitmap;
-    byte[] byteArrayImg;
+    private String mCurrentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,24 +65,23 @@ public class PhotoResultActivity extends AppCompatActivity {
         btnSalvarFoto = (Button) findViewById(R.id.btnSalvarFoto);
         btnSalvarFoto.setEnabled(false);
         btnSalvarFoto.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+                btnSalvarFoto.setEnabled(true);
+                ProgressDialog.show(PhotoResultActivity.this, "", "Aguarde...", true).show();
                 String nameFile = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                storage.createFile(folderSelecionada, nameFile + ".jpg", byteArrayImg);
-//                Storage storage = SimpleStorage.getExternalStorage();
-//                storage.deleteDirectory("RangeEvolution");
-//                storage.createDirectory("RangeEvolution");
-//                storage.createDirectory("RangeEvolution/_saude", true);
-//                storage.createFile("RangeEvolution", "saude", "");
-//                storage.createDirectory("RangeEvolution/_casa", true);
-//                storage.createFile("RangeEvolution", "casa", "");
+                storage.move(new File(mCurrentPhotoPath), folderSelecionada, nameFile + ".jpg");
+                Intent intent = new Intent(PhotoResultActivity.this, MainActivity.class);
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Imagem Salva", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void configSpinner() {
         List<File> files = storage.getFiles(FOLDER_RAIZ, OrderType.DATE);
-        spinner = (Spinner)findViewById(R.id.spinner);
+        spinner = (Spinner) findViewById(R.id.spinner);
         itensList = new ArrayList<>(Arrays.asList("Escolha a categoria"));
         for (File f : files) {
             itensList.add(f.getName().toString());
@@ -98,12 +93,11 @@ public class PhotoResultActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0){
+                if (position != 0) {
                     btnSalvarFoto.setEnabled(true);
                     folderSelecionada = getFolderPath(parent.getItemAtPosition(position).toString());
                     Log.i("LOGX", folderSelecionada);
-                }
-                else
+                } else
                     btnSalvarFoto.setEnabled(false);
             }
 
@@ -128,7 +122,7 @@ public class PhotoResultActivity extends AppCompatActivity {
                 String nome_folder = editText.getText().toString().toLowerCase();
                 storage.createDirectory(getFolderPath(nome_folder));
                 editText.setText("");
-                if(!itensList.contains(nome_folder))
+                if (!itensList.contains(nome_folder))
                     itensList.add(nome_folder);
                 Collections.sort(itensList);
                 adapterList.notifyDataSetChanged();
@@ -145,11 +139,12 @@ public class PhotoResultActivity extends AppCompatActivity {
     }
 
     private void configGetImage() {
-        Bundle extras = getIntent().getExtras();
-        byteArrayImg = extras.getByteArray("BitmapImage");
-        Bitmap bmp = BitmapFactory.decodeByteArray(byteArrayImg, 0, byteArrayImg.length);
         ImageView imageView = (ImageView) findViewById(R.id.photoResult);
-        imageView.setImageBitmap(bmp);
+
+        mCurrentPhotoPath = getIntent().getExtras().getString("ImagePath");
+
+        Bitmap bitmapImage = BitmapFactory.decodeFile(mCurrentPhotoPath);
+        imageView.setImageBitmap(bitmapImage);
     }
 
     private void configToolBar() {

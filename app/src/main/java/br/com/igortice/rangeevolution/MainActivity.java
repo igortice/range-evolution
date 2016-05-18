@@ -1,8 +1,6 @@
 package br.com.igortice.rangeevolution;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,9 +12,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.Toast;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -46,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         slideImagensBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Slide Imagens", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, MainSlideActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -56,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
         compararImagensBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Comparar Imagens", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, MainCompararActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -93,14 +90,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            File imgFile = new File(mCurrentPhotoPath);
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
             Intent intent = new Intent(this, PhotoResultActivity.class);
-            intent.putExtra("BitmapImage", byteArray);
+            intent.putExtra("ImagePath", mCurrentPhotoPath);
             startActivity(intent);
+
         }
     }
 

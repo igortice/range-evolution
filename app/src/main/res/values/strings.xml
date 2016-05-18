@@ -5,4 +5,6 @@
     <string name="title_activity_photo_result">Imagem Capturada</string>
 
     <string name="name_dir_photos">RangeEvolution</string>
+    <string name="title_activity_main_comparar">Comparar Imagens</string>
+    <string name="title_activity_main_slide">Slide Imagens</string>
 </resources>
