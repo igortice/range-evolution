@@ -20,9 +20,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.sromku.simple.storage.SimpleStorage;
 import com.sromku.simple.storage.Storage;
-import com.sromku.simple.storage.helpers.OrderType;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -34,7 +32,6 @@ import java.util.List;
 
 public class PhotoResultActivity extends AppCompatActivity {
 
-    private static final String FOLDER_RAIZ = "RangeEvolution";
     private Storage storage;
     private Spinner spinner;
     private ArrayList<String> itensList;
@@ -48,17 +45,21 @@ public class PhotoResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_result);
 
+        configApp();
+
         configToolBar();
 
         configGetImage();
-
-        configFolderRaiz();
 
         configBtnAddCat();
 
         configSpinner();
 
         configBtnSalvar();
+    }
+
+    private void configApp() {
+        storage = FilesUntil.getStorage();
     }
 
     private void configBtnSalvar() {
@@ -80,7 +81,7 @@ public class PhotoResultActivity extends AppCompatActivity {
     }
 
     private void configSpinner() {
-        List<File> files = storage.getFiles(FOLDER_RAIZ, OrderType.DATE);
+        List<File> files = FilesUntil.getFoldersNames();
         spinner = (Spinner) findViewById(R.id.spinner);
         itensList = new ArrayList<>(Arrays.asList("Escolha a categoria"));
         for (File f : files) {
@@ -96,7 +97,6 @@ public class PhotoResultActivity extends AppCompatActivity {
                 if (position != 0) {
                     btnSalvarFoto.setEnabled(true);
                     folderSelecionada = getFolderPath(parent.getItemAtPosition(position).toString());
-                    Log.i("LOGX", folderSelecionada);
                 } else
                     btnSalvarFoto.setEnabled(false);
             }
@@ -131,13 +131,6 @@ public class PhotoResultActivity extends AppCompatActivity {
         });
     }
 
-    private void configFolderRaiz() {
-        storage = SimpleStorage.getExternalStorage();
-        boolean dirExists = storage.isDirectoryExists(FOLDER_RAIZ);
-        if (!dirExists)
-            storage.createDirectory(FOLDER_RAIZ);
-    }
-
     private void configGetImage() {
         ImageView imageView = (ImageView) findViewById(R.id.photoResult);
 
@@ -161,6 +154,6 @@ public class PhotoResultActivity extends AppCompatActivity {
     }
 
     private String getFolderPath(String folder) {
-        return FOLDER_RAIZ + "/" + folder;
+        return FilesUntil.FOLDER_RAIZ + "/" + folder;
     }
 }
