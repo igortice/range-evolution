@@ -81,13 +81,9 @@ public class PhotoResultActivity extends AppCompatActivity {
     }
 
     private void configSpinner() {
-        List<File> files = FilesUntil.getFoldersNames();
+        itensList = FilesUntil.getCategoriasFoldersNames();
+
         spinner = (Spinner) findViewById(R.id.spinner);
-        itensList = new ArrayList<>(Arrays.asList("Escolha a categoria"));
-        for (File f : files) {
-            itensList.add(f.getName().toString());
-        }
-        Collections.sort(itensList);
         adapterList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, itensList);
         spinner.setAdapter(adapterList);
 
@@ -96,7 +92,7 @@ public class PhotoResultActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
                     btnSalvarFoto.setEnabled(true);
-                    folderSelecionada = getFolderPath(parent.getItemAtPosition(position).toString());
+                    folderSelecionada = FilesUntil.getFolderPath(parent.getItemAtPosition(position).toString());
                 } else
                     btnSalvarFoto.setEnabled(false);
             }
@@ -120,7 +116,7 @@ public class PhotoResultActivity extends AppCompatActivity {
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 EditText editText = (EditText) findViewById(R.id.txtAddCat);
                 String nome_folder = editText.getText().toString().toLowerCase();
-                storage.createDirectory(getFolderPath(nome_folder));
+                storage.createDirectory(FilesUntil.getFolderPath(nome_folder));
                 editText.setText("");
                 if (!itensList.contains(nome_folder))
                     itensList.add(nome_folder);
@@ -151,9 +147,5 @@ public class PhotoResultActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(PhotoResultActivity.this);
             }
         });
-    }
-
-    private String getFolderPath(String folder) {
-        return FilesUntil.FOLDER_RAIZ + "/" + folder;
     }
 }

@@ -9,12 +9,12 @@ import com.sromku.simple.storage.helpers.OrderType;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by igortice on 18/05/16.
- */
 public class FilesUntil {
     public static final String FOLDER_RAIZ = "RangeEvolution";
 
@@ -44,5 +44,29 @@ public class FilesUntil {
         return getStorage().getFiles(FOLDER_RAIZ, OrderType.DATE);
     }
 
+    public static ArrayList<String> getCategoriasFoldersNames() {
+        List<File> files = getFoldersNames();
+        ArrayList<String> itensList = new ArrayList<>(Arrays.asList("Escolha a categoria"));
+        for (File f : files) {
+            itensList.add(f.getName().toString());
+        }
+        Collections.sort(itensList);
 
+        return itensList;
+    }
+
+    public static ArrayList<String> getItensFolderName(String folderName) {
+        List<File> files = getStorage().getFiles(getFolderPath(folderName), OrderType.DATE);
+        ArrayList<String> itensList = new ArrayList<>();
+        for (File f : files) {
+            itensList.add(f.getName().toString());
+        }
+        Collections.sort(itensList);
+
+        return itensList;
+    }
+
+    public static String getFolderPath(String folder) {
+        return FOLDER_RAIZ + "/" + folder;
+    }
 }
