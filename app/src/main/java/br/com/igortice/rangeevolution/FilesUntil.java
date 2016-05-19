@@ -8,6 +8,7 @@ import com.sromku.simple.storage.helpers.OrderType;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,11 +60,26 @@ public class FilesUntil {
         List<File> files = getStorage().getFiles(getFolderPath(folderName), OrderType.DATE);
         ArrayList<String> itensList = new ArrayList<>();
         for (File f : files) {
-            itensList.add(f.getName().toString());
+            String inputString = f.getName().toString().replace(".jpg", "");
+            inputString = dateFormatToHuman(inputString);
+            itensList.add(inputString);
         }
-        Collections.sort(itensList);
+        Collections.sort(itensList, Collections.<String>reverseOrder());
 
         return itensList;
+    }
+
+    private static String dateFormatToHuman(String date_s) {
+        String inputString = date_s;
+        SimpleDateFormat dt = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        Date date = null;
+        try {
+            date = dt.parse(inputString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyyy - HH:mm:ss");
+        return dt1.format(date);
     }
 
     public static String getFolderPath(String folder) {
