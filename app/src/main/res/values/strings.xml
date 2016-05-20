@@ -7,4 +7,5 @@
     <string name="name_dir_photos">RangeEvolution</string>
     <string name="title_activity_main_comparar">Comparar Imagens</string>
     <string name="title_activity_main_slide">Slide Imagens</string>
+    <string name="title_activity_comparar_result">Resultado Comparação</string>
 </resources>
