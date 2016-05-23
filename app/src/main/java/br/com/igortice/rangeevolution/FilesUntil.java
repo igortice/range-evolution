@@ -78,7 +78,21 @@ public class FilesUntil {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyyy - HH:mm:ss");
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+        return dt1.format(date);
+    }
+
+    static String dateHumanToFormat(String date_s) {
+
+        String inputString = date_s;
+        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+        Date date = null;
+        try {
+            date = dt.parse(inputString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat dt1 = new SimpleDateFormat("yyyyMMdd_HHmmss");
         return dt1.format(date);
     }
 

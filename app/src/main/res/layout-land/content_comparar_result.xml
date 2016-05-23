@@ -22,7 +22,7 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/imageView"
+            android:id="@+id/imgEsq"
             android:scaleType="centerCrop"
             android:src="@drawable/android" />
 
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="antes"
-            android:id="@+id/textView7"
+            android:id="@+id/txtEsq"
             android:layout_gravity="center_horizontal|top"
             android:background="#000000"
             android:textColor="#ffffff"
@@ -61,7 +61,7 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/imageView3"
+            android:id="@+id/imgDir"
             android:scaleType="centerCrop"
             android:src="@drawable/android"
             android:paddingLeft="10dp" />
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="depois"
-            android:id="@+id/textView6"
+            android:id="@+id/txtDir"
             android:layout_gravity="center_horizontal|top"
             android:background="#000000"
             android:textColor="#ffffff"

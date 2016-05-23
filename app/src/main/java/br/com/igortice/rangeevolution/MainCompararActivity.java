@@ -1,5 +1,6 @@
 package br.com.igortice.rangeevolution;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -46,7 +47,7 @@ public class MainCompararActivity extends AppCompatActivity {
         layoutFoto1 = (LinearLayout) findViewById(R.id.layoutFoto1);
         layoutFoto2 = (LinearLayout) findViewById(R.id.layoutFoto2);
         layoutBotao = (LinearLayout) findViewById(R.id.layoutBotao);
-        fotosSelecionadas = new String[2];
+        fotosSelecionadas = new String[3];
         btnComparar = (Button) findViewById(R.id.btnCompararResult);
     }
 
@@ -61,7 +62,8 @@ public class MainCompararActivity extends AppCompatActivity {
                     layoutFoto1.setVisibility(View.VISIBLE);
                     layoutFoto2.setVisibility(View.VISIBLE);
                     layoutBotao.setVisibility(View.VISIBLE);
-                    ArrayList<String> itensList = FilesUntil.getItensFolderName(parent.getItemAtPosition(position).toString());
+                    fotosSelecionadas[2] = parent.getItemAtPosition(position).toString();
+                    ArrayList<String> itensList = FilesUntil.getItensFolderName(fotosSelecionadas[2]);
 
                     ArrayAdapter<String> adapterList = new ArrayAdapter<String>(MainCompararActivity.this, android.R.layout.simple_spinner_dropdown_item, itensList);
                     spinnerFoto1.setAdapter(adapterList);
@@ -107,6 +109,7 @@ public class MainCompararActivity extends AppCompatActivity {
         btnComparar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnComparar.setEnabled(true);
                 Intent intent = new Intent(getApplicationContext(), CompararResultActivity.class);
                 intent.putExtra("fotosSelecionadas", fotosSelecionadas);
                 startActivity(intent);
