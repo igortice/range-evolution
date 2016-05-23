@@ -30,26 +30,31 @@
             android:name=".ConfigActivity"
             android:label="@string/title_activity_config"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PhotoResultActivity"
             android:label="@string/title_activity_photo_result"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainCompararActivity"
             android:label="@string/title_activity_main_comparar"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainSlideActivity"
             android:label="@string/title_activity_main_slide"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CompararResultActivity"
             android:label="@string/title_activity_comparar_result"
             android:parentActivityName=".MainCompararActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
