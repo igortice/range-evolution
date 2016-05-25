@@ -12,14 +12,19 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class CustomSwipeAdapter extends PagerAdapter {
-    ArrayList<Integer> images_res;
+    ArrayList<String> images_res;
 
     private Context context;
     private LayoutInflater layoutInflater;
 
-    public CustomSwipeAdapter(ArrayList<Integer> images_res, Context context) {
-        this.images_res = images_res;
+    public CustomSwipeAdapter(Context context) {
+        this.images_res = new ArrayList<>();;
         this.context = context;
+    }
+
+    public void addNewCategoriaImages(ArrayList<String> imagesPath) {
+        this.images_res = new ArrayList<>(imagesPath);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -38,7 +43,9 @@ public class CustomSwipeAdapter extends PagerAdapter {
         View item_view = layoutInflater.inflate(R.layout.swipe_layout, container, false);
         ImageView imageView = (ImageView) item_view.findViewById(R.id.imageView);
         TextView textView = (TextView) item_view.findViewById(R.id.imageTexto);
-        imageView.setImageResource(images_res.get(position));
+
+        imageView.setImageBitmap(FilesUntil.getImageBitmap(images_res.get(position)));
+//        imageView.setImageResource(images_res.indexOf(position));
         textView.setText("Imagem " + position);
         container.addView(item_view);
 

@@ -49,15 +49,16 @@ public class CompararResultActivity extends AppCompatActivity {
                 img1 = mystringArray[1];
                 img2 = mystringArray[0];
             }
+
+            String path1 = null, path2 = null, folderName = FilesUntil.getFolderPath(mystringArray[2]);
+
             txtData1.setText(img1);
-            String pathImg1 = Environment.getExternalStorageDirectory() + "/" + FilesUntil.getFolderPath(mystringArray[2]) + "/" + FilesUntil.dateHumanToFormat(img1) + ".jpg";
-            Bitmap bitmapImage1 = BitmapFactory.decodeFile(pathImg1);
-            imgEsq.setImageBitmap(bitmapImage1);
+            path1 = folderName + "/" + FilesUntil.dateHumanToFormat(img1) + ".jpg";
+            imgEsq.setImageBitmap(FilesUntil.getImageBitmap(path1));
 
             txtData2.setText(img2);
-            String pathImg2 = Environment.getExternalStorageDirectory() + "/" + FilesUntil.getFolderPath(mystringArray[2]) + "/" + FilesUntil.dateHumanToFormat(img2) + ".jpg";
-            Bitmap bitmapImage2 = BitmapFactory.decodeFile(pathImg2);
-            imgDir.setImageBitmap(bitmapImage2);
+            path2 = folderName + "/" + FilesUntil.dateHumanToFormat(img2) + ".jpg";
+            imgDir.setImageBitmap(FilesUntil.getImageBitmap(path2));
         } catch (ParseException e) {
             e.printStackTrace();
         }

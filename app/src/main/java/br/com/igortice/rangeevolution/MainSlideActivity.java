@@ -38,13 +38,7 @@ public class MainSlideActivity extends AppCompatActivity {
         spinnerCategoria = (Spinner) findViewById(R.id.spinnerSelectCategoriaSlide);
         slideArea = (FrameLayout) findViewById(R.id.slideArea);
         viewPager = (ViewPager) findViewById(R.id.viewPage);
-        ArrayList<Integer> imagens = new ArrayList<>(Arrays.asList(android.R.drawable.ic_dialog_alert,
-                R.drawable.android,
-                android.R.drawable.ic_menu_camera,
-                android.R.drawable.ic_menu_compass,
-                android.R.drawable.ic_menu_directions,
-                android.R.drawable.ic_menu_gallery));
-        customSwipeAdapter = new CustomSwipeAdapter(imagens, this);
+        customSwipeAdapter = new CustomSwipeAdapter(this);
         viewPager.setAdapter(customSwipeAdapter);
     }
 
@@ -62,13 +56,23 @@ public class MainSlideActivity extends AppCompatActivity {
     }
 
     private void configSpinner() {
-        ArrayAdapter<String> adapterList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, FilesUntil.getCategoriasFoldersNames());
+        final ArrayAdapter<String> adapterList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, FilesUntil.getCategoriasFoldersNames());
         spinnerCategoria.setAdapter(adapterList);
 
         spinnerCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                slideArea.setVisibility(position != 0 ? View.VISIBLE : View.INVISIBLE);
+                if (position != 0) {
+                    slideArea.setVisibility(View.VISIBLE);
+                    String p = parent.getItemAtPosition(position).toString();
+                    ArrayList<String> itensList = FilesUntil.getItensFolderNameFullPath(p);
+                    viewPager.setAdapter(null);
+                    customSwipeAdapter = new CustomSwipeAdapter(MainSlideActivity.this);
+                    customSwipeAdapter.addNewCategoriaImages(itensList);
+                    viewPager.setAdapter(customSwipeAdapter);
+                } else {
+                    slideArea.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override

@@ -1,5 +1,7 @@
 package br.com.igortice.rangeevolution;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 import com.sromku.simple.storage.SimpleStorage;
@@ -69,6 +71,17 @@ public class FilesUntil {
         return itensList;
     }
 
+    public static ArrayList<String> getItensFolderNameFullPath(String folderName) {
+        List<File> files = getStorage().getFiles(getFolderPath(folderName), OrderType.DATE);
+        ArrayList<String> itensList = new ArrayList<>();
+        for (File f : files) {
+            String pathImg = getFolderPath(folderName) + "/" + f.getName().toString();
+            itensList.add(pathImg);
+        }
+
+        return itensList;
+    }
+
     private static String dateFormatToHuman(String date_s) {
         String inputString = date_s;
         SimpleDateFormat dt = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -94,6 +107,12 @@ public class FilesUntil {
         }
         SimpleDateFormat dt1 = new SimpleDateFormat("yyyyMMdd_HHmmss");
         return dt1.format(date);
+    }
+
+    static Bitmap getImageBitmap(String path) {
+        String pathImg = Environment.getExternalStorageDirectory() + "/" + path;
+
+        return BitmapFactory.decodeFile(pathImg);
     }
 
     public static String getFolderPath(String folder) {
