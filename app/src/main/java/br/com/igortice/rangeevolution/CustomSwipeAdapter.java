@@ -46,7 +46,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
 
         imageView.setImageBitmap(FilesUntil.getImageBitmap(images_res.get(position)));
 //        imageView.setImageResource(images_res.indexOf(position));
-        textView.setText("Imagem " + position);
+        textView.setText("Imagem " + (position + 1));
         container.addView(item_view);
 
         return item_view;
